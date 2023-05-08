@@ -60,11 +60,6 @@ export default function Home() {
 
     ctx.drawImage(img, 0, 0);
 
-    ctx.fillStyle = "#fff3";
-    ctx.textBaseline = "bottom";
-    ctx.font = `${c.height / 30}px sans-serif`;
-    ctx.fillText(location.hostname, 20, c.height - 10);
-
     c.toBlob((d) => {
       if (!d) throw new Error("Render Failed");
       if (!output) throw new Error("Couldn't get output handle");
