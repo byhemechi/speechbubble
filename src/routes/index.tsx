@@ -56,6 +56,11 @@ export default function Home() {
     ctx.clip();
 
     ctx.drawImage(img, 0, 0);
+
+    ctx.fillStyle = "#fff3";
+    ctx.textBaseline = "bottom";
+    ctx.font = `${c.height / 30}px sans-serif`;
+    ctx.fillText(location.hostname, 20, c.height - 10);
   }
 
   return (
