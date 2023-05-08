@@ -31,6 +31,12 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
+            <header class="border-b-[1px] dark:border-neutral-800">
+              <div class="h-2 bg-gradient-to-r from-green-400 to-blue-500"></div>
+              <div class="max-w-screen-lg mx-auto p-2 px-4">
+                <img src="/sadcloud.svg" class="h-12" />
+              </div>
+            </header>
             <Routes>
               <FileRoutes />
             </Routes>

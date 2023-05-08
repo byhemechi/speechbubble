@@ -73,7 +73,7 @@ export default function Home() {
   }
 
   return (
-    <main class="text-center mx-auto p-4 flex flex-col gap-4 w-max">
+    <main class="mx-auto p-4 flex flex-col gap-4 w-full max-w-screen-lg">
       <h1 class="text-4xl">Speech Bubble Generator</h1>
       <Show when={error()}>
         <div class="text-red-600">{error()}</div>
@@ -91,7 +91,10 @@ export default function Home() {
         }}
       />
       <canvas ref={c} class="hidden"></canvas>
-      <img class="h-96 mx-auto rounded-xl shadow-lg bg-gray-900" ref={output} />
+      <img
+        class="max-w-full rounded-xl shadow-lg bg-neutral-800"
+        ref={output}
+      />
     </main>
   );
 }
