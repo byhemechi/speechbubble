@@ -23,6 +23,7 @@ const imagePromise = (src: string) =>
 export default function Home() {
   const [error, setError] = createSignal<string | null>(null);
   let c: HTMLCanvasElement | undefined = undefined;
+  let output: HTMLImageElement | undefined = undefined;
 
   async function render(image: File) {
     if (!c) return setError("Couldn't attach to canvas");
@@ -30,7 +31,6 @@ export default function Home() {
     if (!ctx) return setError("Couldn't get context");
 
     const file = await readerPromise(image);
-    console.log(file);
     if (!file) throw new Error("Couldn't read image");
 
     const img = await imagePromise(file.toString());
@@ -55,17 +55,26 @@ export default function Home() {
 
     ctx.clip();
 
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, c.width, c.height);
+
     ctx.drawImage(img, 0, 0);
 
     ctx.fillStyle = "#fff3";
     ctx.textBaseline = "bottom";
     ctx.font = `${c.height / 30}px sans-serif`;
     ctx.fillText(location.hostname, 20, c.height - 10);
+
+    c.toBlob((d) => {
+      if (!d) throw new Error("Render Failed");
+      if (!output) throw new Error("Couldn't get output handle");
+      output.src = URL.createObjectURL(d);
+    }, "image/gif");
   }
 
   return (
-    <main class="text-center mx-auto text-gray-700 p-4">
-      <h1>Speech Bubble Generator</h1>
+    <main class="text-center mx-auto p-4 flex flex-col gap-4 w-max">
+      <h1 class="text-4xl">Speech Bubble Generator</h1>
       <Show when={error()}>
         <div class="text-red-600">{error()}</div>
       </Show>
@@ -81,10 +90,8 @@ export default function Home() {
           render(file);
         }}
       />
-      <canvas
-        ref={c}
-        class="h-96 mx-auto rounded-xl shadow-lg bg-white"
-      ></canvas>
+      <canvas ref={c} class="hidden"></canvas>
+      <img class="h-96 mx-auto rounded-xl shadow-lg bg-gray-900" ref={output} />
     </main>
   );
 }
